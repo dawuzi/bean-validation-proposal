@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.dawuzi.beanvalidation.helper.TestRequest;
+import com.github.dawuzi.beanvalidation.helper.ValidSport;
 
 /**
  * 
@@ -35,15 +36,51 @@ public class ValidEnumValueImplTest {
 		
 		validEnumStringImpl.initialize(monthFieldValidEnumValue);
 		
-		String[] validValues = validEnumStringImpl.validValues;
+		String[] monthValidValues = validEnumStringImpl.validValues;
 		
-		String[] expected = new String[Month.values().length];
+		String[] expectedMonthValues = new String[Month.values().length];
 		
 		for (int i = 0; i < Month.values().length; i++) {
-			expected[i] = Month.values()[i].name();
+			expectedMonthValues[i] = Month.values()[i].name();
 		}
 		
-		Assert.assertArrayEquals(expected, validValues);
+		Assert.assertArrayEquals(expectedMonthValues, monthValidValues);
+		
+		
+		
+		Field validSportNameField = getField(clazz, "validSportName");
+		
+		ValidEnumValue validSportNameFieldValidEnumValue = validSportNameField.getAnnotation(ValidEnumValue.class);
+		
+		validEnumStringImpl.initialize(validSportNameFieldValidEnumValue);
+		
+		String[] validSportNameValidValues = validEnumStringImpl.validValues;
+		
+		String[] expectedValidSportNameValues = new String[ValidSport.values().length];
+		
+		for (int i = 0; i < ValidSport.values().length; i++) {
+			expectedValidSportNameValues[i] = ValidSport.values()[i].name();
+		}
+		
+		Assert.assertArrayEquals(expectedValidSportNameValues, validSportNameValidValues);
+		
+		
+		
+		Field validSportCodeField = getField(clazz, "validSportCode");
+		
+		ValidEnumValue validSportCodeFieldValidEnumValue = validSportCodeField.getAnnotation(ValidEnumValue.class);
+		
+		validEnumStringImpl.initialize(validSportCodeFieldValidEnumValue);
+		
+		String[] validSportCodeValidValues = validEnumStringImpl.validValues;
+		
+		String[] expectedValidSportCodeValues = new String[ValidSport.values().length];
+		
+		for (int i = 0; i < ValidSport.values().length; i++) {
+			expectedValidSportCodeValues[i] = ValidSport.values()[i].getSportCode();
+		}
+		
+		Assert.assertArrayEquals(expectedValidSportCodeValues, validSportCodeValidValues);
 		
 	}
 

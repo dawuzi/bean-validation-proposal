@@ -12,7 +12,7 @@ public class SportCodeValidValue implements IValidValue {
 		}
 		
 //		it is not of the ValidSport enum class so lets just return the name
-		if(!ValidSport.class.getClass().equals(enumValue.getClass())) {
+		if(!ValidSport.class.equals(enumValue.getClass())) {
 			return enumValue.name();
 		}
 		
