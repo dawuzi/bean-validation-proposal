@@ -5,5 +5,5 @@ package com.github.dawuzi.beanvalidation;
  *
  */
 public interface IValidValue {
-	public String getValidEnumValue(Enum<?> enumValue);
+	String getValidEnumValue(Enum<?> enumValue);
 }
