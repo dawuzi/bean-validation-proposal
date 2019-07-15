@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
 
 /**
- * This is the concrete validator class for the {@link ValidEnumValue} constraint annotation 
+ * This is the concrete implementation class for the {@link ValidEnumValue} constraint annotation 
  * 
  * @author Okafor Ezewuzie
  *
@@ -22,28 +22,30 @@ public class ValidEnumValueImpl implements ConstraintValidator<ValidEnumValue, O
 	
 	@Override
 	public void initialize(ValidEnumValue constraintAnnotation) {
-		
 		enumClass = constraintAnnotation.enumClass();
-		
-		Class<? extends IValidValue> enumValueFunctionClass = constraintAnnotation.enumValidValueClass();
+		validValues = getValidValues(constraintAnnotation.enumClass(), constraintAnnotation.enumValidValueClass());
+	}
+
+	public String[] getValidValues(Class<? extends Enum<?>> localEnumClass, Class<? extends IValidValue> enumValidValueClass) {
 		
 		IValidValue validValue = null;
 		
-		if(enumValueFunctionClass != null) {
+//		Excluded the default IValidValue.class which ideally indicates that no value was specified as the enumValidValueClass
+		if(enumValidValueClass != null && !enumValidValueClass.equals(IValidValue.class)) {
 			
 			try {
-				validValue = enumValueFunctionClass.newInstance();
+				validValue = enumValidValueClass.newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				
 				log.severe( () -> "Cannot create an instance using the default no argument constructor of the enumValidValueClass : " 
-						+ enumValueFunctionClass.getName());
+						+ enumValidValueClass.getName());
 				
-				throw new IllegalArgumentException("Error invoking default no argument constructor on the enumValueFunctionClass : " 
-						+ enumValueFunctionClass.getName(), e);
+				throw new IllegalArgumentException("Error invoking default no argument constructor on the enumValidValueClass : " 
+						+ enumValidValueClass.getName(), e);
 			}
 		} 
 		
-		Enum<?>[] enumConstants = enumClass.getEnumConstants();
+		Enum<?>[] enumConstants = localEnumClass.getEnumConstants();
 
 		validValues = new String[enumConstants.length];
 
@@ -58,6 +60,7 @@ public class ValidEnumValueImpl implements ConstraintValidator<ValidEnumValue, O
 			}
 		}
 		
+		return validValues;
 	}
 
 	@Override

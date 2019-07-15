@@ -53,5 +53,5 @@ public @interface ValidEnumValue {
 	 * case the name of the enum values are used as the valid list of strings
 	 * 
 	 */
-	Class<? extends IValidValue> enumValidValueClass();
+	Class<? extends IValidValue> enumValidValueClass() default IValidValue.class;
 }
