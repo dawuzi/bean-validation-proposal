@@ -91,7 +91,7 @@ public class ValidEnumValueImpl implements ConstraintValidator<ValidEnumValue, O
 		return valid;
 	}
 	
-	private boolean isValidObject(Object value){
+	protected boolean isValidObject(Object value){
 		
 		boolean valid = true;
 		
