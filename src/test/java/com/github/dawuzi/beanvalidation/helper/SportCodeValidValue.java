@@ -16,9 +16,7 @@ public class SportCodeValidValue implements IValidValue {
 			return enumValue.name();
 		}
 		
-		ValidSport validSport = (ValidSport) enumValue;
-		
-		return validSport.getSportCode();
+		return ((ValidSport) enumValue).getSportCode();
 	}
 
 }
